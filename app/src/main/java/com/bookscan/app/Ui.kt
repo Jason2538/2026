@@ -178,6 +178,7 @@ fun colorWithAlpha(color: Int, alpha: Int): Int = Color.argb(alpha, Color.red(co
 
 /** White status/navigation bar icons (for dark screens). */
 fun Activity.darkSystemBars() {
+    try { window.decorView } catch (_: Throwable) { return }
     window.insetsController?.setSystemBarsAppearance(
         0,
         android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS or

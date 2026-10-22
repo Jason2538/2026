@@ -67,7 +67,6 @@ class EditActivity : Activity() {
     private fun buildUi() {
         val root = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setBackgroundColor(C.DARK) }
         root.padForSystemBars()
-        darkSystemBars()
 
         val top = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
@@ -133,6 +132,7 @@ class EditActivity : Activity() {
 
         crop.onChange = { updateInfo() }
         setContentView(root)
+        darkSystemBars() // needs the window decor, so only after setContentView
         setMode(false)
     }
 
