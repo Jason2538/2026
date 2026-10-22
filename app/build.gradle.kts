@@ -13,7 +13,8 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-        ndk { abiFilters += listOf("arm64-v8a") }
+        // -Pemu builds an x86_64 copy for the test emulator; the tablet build is arm64 only
+        ndk { abiFilters += if (project.hasProperty("emu")) listOf("x86_64") else listOf("arm64-v8a") }
     }
 
     signingConfigs {
