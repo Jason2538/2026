@@ -154,10 +154,13 @@ class EditActivity : Activity() {
         strengthRow.visibility = if (Filters.hasStrength(work.filter)) View.VISIBLE else View.INVISIBLE
     }
 
-    private fun currentQuad(): FloatArray = crop.quad?.copyOf() ?: Vision.fullQuad(origW, origH)
+    private var imageReady = false
+
+    private fun currentQuad(): FloatArray? = crop.quad?.copyOf() ?: work.quad?.copyOf()
 
     private fun updateInfo() {
-        work.quad = currentQuad()
+        if (!imageReady) { info.text = "원본 사진 여는 중…"; return }
+        work.quad = currentQuad() ?: Vision.fullQuad(origW, origH)
         val sz = Vision.outputSize(work.quad!!, origW, origH, work.focal, work.snap)
         val w = if (work.rot % 180 == 0) sz.w else sz.h
         val h = if (work.rot % 180 == 0) sz.h else sz.w
@@ -178,6 +181,7 @@ class EditActivity : Activity() {
             Bg.ui {
                 if (bmp == null || w <= 0) { toast("원본 사진을 열 수 없어요"); return@ui }
                 origW = w; origH = h
+                imageReady = true
                 crop.setImage(bmp, w.toFloat() / bmp.width)
                 crop.setQuad(work.quad ?: Vision.fullQuad(w, h))
                 updateInfo()
@@ -199,7 +203,8 @@ class EditActivity : Activity() {
     }
 
     private fun requestPreview() {
-        work.quad = currentQuad()
+        if (!imageReady) return
+        work.quad = currentQuad() ?: Vision.fullQuad(origW, origH)
         val snapshot = Page(work.id, work.orig, work.quad?.copyOf(), work.filter, work.rot, work.strength, work.focal, work.snap)
         val seq = ++previewSeq
         Bg.work.execute {
@@ -210,7 +215,8 @@ class EditActivity : Activity() {
     }
 
     private fun save() {
-        work.quad = currentQuad()
+        if (!imageReady) { finish(); return }
+        work.quad = currentQuad() ?: Vision.fullQuad(origW, origH)
         val p = Progress(this, "저장 중")
         Bg.io.execute {
             page.quad = work.quad; page.filter = work.filter; page.rot = work.rot

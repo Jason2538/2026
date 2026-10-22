@@ -424,7 +424,8 @@ object Vision {
 
     /** Crops/flattens the page from its original photo (also fills in the paper label). */
     private fun cropPage(src: Mat, page: Page, cap: Int, scale: Double = 1.0): Mat {
-        val q = page.quad?.let { FloatArray(8) { i -> (it[i] * scale).toFloat() } } ?: fullQuad(src.cols(), src.rows())
+        var q = page.quad?.let { FloatArray(8) { i -> (it[i] * scale).toFloat() } } ?: fullQuad(src.cols(), src.rows())
+        if (quadArea(q) < 0.01 * src.cols() * src.rows()) q = fullQuad(src.cols(), src.rows())
         val sz = outputSize(q, src.cols(), src.rows(), page.focal * scale, page.snap, cap)
         page.paper = sz.paper
         return warp(src, q, sz.w, sz.h)

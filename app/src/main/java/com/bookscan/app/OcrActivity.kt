@@ -117,6 +117,7 @@ class OcrActivity : Activity() {
             Bg.ui {
                 if (index != i) return@ui
                 if (bmp == null) { status.text = "쪽 이미지를 열 수 없어요"; return@ui }
+                if (bmp.width < 32 || bmp.height < 32) { status.text = "쪽이 너무 작아요. 자르기를 다시 맞춰 주세요"; return@ui }
                 val cached = results[p.id]
                 if (cached != null) show(bmp, cached)
                 else Ocr.recognize(bmp) { r, e ->
@@ -163,7 +164,7 @@ class OcrActivity : Activity() {
             Bg.work.execute {
                 val bmp = loadPage(p)
                 Bg.ui {
-                    if (bmp == null) { next(i + 1); return@ui }
+                    if (bmp == null || bmp.width < 32 || bmp.height < 32) { next(i + 1); return@ui }
                     Ocr.recognize(bmp) { r, _ ->
                         if (r != null) { results[p.id] = r; parts[i] = r.text }
                         next(i + 1)
