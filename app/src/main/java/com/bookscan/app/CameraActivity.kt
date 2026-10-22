@@ -468,6 +468,10 @@ class CameraActivity : Activity() {
     }
 
     private fun onFrame(reader: ImageReader) {
+        try { analyze(reader) } catch (e: Throwable) { /* skip this frame */ }
+    }
+
+    private fun analyze(reader: ImageReader) {
         val img = try { reader.acquireLatestImage() } catch (e: Exception) { null } ?: return
         val w = img.width; val h = img.height
         try {

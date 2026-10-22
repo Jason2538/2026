@@ -119,6 +119,25 @@ class MainActivity : Activity() {
     override fun onResume() {
         super.onResume()
         reload()
+        showLastCrash()
+    }
+
+    /** If the app crashed last time, show the error so it can be copied and sent. */
+    private fun showLastCrash() {
+        val f = CrashLog.file(application)
+        if (!f.exists()) return
+        val text = try { f.readText() } catch (e: Exception) { "" }
+        f.delete()
+        if (text.isBlank()) return
+        val tv = label(text, 12f, C.TEXT).apply { setTextIsSelectable(true); setPadding(dp(22), dp(8), dp(22), dp(8)) }
+        dialogBuilder().setTitle("지난번에 오류가 났어요")
+            .setView(android.widget.ScrollView(this).apply { addView(tv) })
+            .setPositiveButton("오류 내용 복사") { _, _ ->
+                val cm = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                cm.setPrimaryClip(android.content.ClipData.newPlainText("북스캔 오류", text))
+                toast("복사했어요. 채팅에 붙여넣어 보내 주세요")
+            }
+            .setNegativeButton("닫기", null).show()
     }
 
     private fun reload() {
@@ -133,6 +152,7 @@ class MainActivity : Activity() {
     }
 
     private fun scan() {
+        if (!CrashLog.openCvReady) { toast("이미지 엔진을 불러오지 못했어요. 앱을 다시 설치해 주세요"); return }
         val d = Docs.create(this)
         startActivity(Intent(this, CameraActivity::class.java)
             .putExtra(CameraActivity.EXTRA_DOC, d.id).putExtra(CameraActivity.EXTRA_OPEN_DOC, true))
