@@ -1,7 +1,10 @@
 name: Build BookScan APK
 on:
   push:
+    branches: [bookscan]
   workflow_dispatch:
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,7 +18,16 @@ jobs:
         with:
           gradle-version: '8.9'
       - run: gradle assembleRelease --no-daemon --stacktrace
+      - run: cp app/build/outputs/apk/release/app-release.apk BookScan.apk
       - uses: actions/upload-artifact@v4
         with:
           name: BookScan-APK
-          path: app/build/outputs/apk/release/*.apk
+          path: BookScan.apk
+      - name: Publish APK as a release (easy download on the tablet)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG=bookscan-latest
+          gh release delete "$TAG" --yes --cleanup-tag || true
+          gh release create "$TAG" BookScan.apk --target "$GITHUB_SHA" \
+            --title "북스캔 최신 APK" --notes "BookScan.apk를 눌러 내려받은 뒤 태블릿에서 설치하세요." --prerelease
