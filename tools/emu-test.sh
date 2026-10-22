@@ -19,7 +19,17 @@ sleep 8; shot 1-main
 tapText "스캔하기" main; sleep 12; shot 2-camera
 adb shell input keyevent KEYCODE_VOLUME_DOWN; sleep 10; shot 3-after-capture
 tapText "완료" cam; sleep 10; shot 4-doc
-adb shell am start -W -n com.bookscan.app/.MainActivity; sleep 5; shot 5-main-again
+tapText "1" doc && sleep 8; shot 5-edit
+tapText "보정" edit && sleep 10; shot 6-look
+tapText "저장" look && sleep 10; shot 7-back-doc
+tapText "글자 인식" doc2 && sleep 20; shot 8-ocr
+adb shell input keyevent KEYCODE_BACK; sleep 3
+tapText "PDF 저장" doc3 && sleep 3; shot 9-pdf-dialog
+tapText "저장" pdfdlg && sleep 10; shot 10-pdf-saved
+tapText "이미지 저장" doc4 && sleep 8; shot 11-images
+adb shell ls -R /sdcard/Documents /sdcard/Pictures > $OUT/files.txt 2>&1
+adb shell am force-stop com.bookscan.app
+adb shell am start -W -n com.bookscan.app/.MainActivity; sleep 6; shot 12-main-again
 adb shell dumpsys activity activities | grep -E "mResumedActivity|topResumedActivity" > $OUT/activity.txt
 adb logcat -d > $OUT/logcat.txt
 adb logcat -d -b crash > $OUT/crash.txt
