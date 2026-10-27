@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 'StandBy 시작' 아이콘: 가로로 놓인 화면 + 빨간 야간 시계 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#2C2C2E"
+        android:pathData="M30,38h48a6,6 0,0 1,6 6v20a6,6 0,0 1,-6 6h-48a6,6 0,0 1,-6 -6v-20a6,6 0,0 1,6 -6z" />
+    <path
+        android:fillColor="#000000"
+        android:pathData="M31,41h46a4,4 0,0 1,4 4v18a4,4 0,0 1,-4 4h-46a4,4 0,0 1,-4 -4v-18a4,4 0,0 1,4 -4z" />
+    <!-- 왼쪽 작은 시계 -->
+    <path
+        android:fillColor="#FF3B30"
+        android:fillType="evenOdd"
+        android:pathData="M42,45a9,9 0,1 1,0 18a9,9 0,1 1,0 -18z M42,47a7,7 0,1 0,0 14a7,7 0,1 0,0 -14z" />
+    <path
+        android:fillColor="#FF3B30"
+        android:pathData="M41.3,48.5h1.4v6h-1.4z M42,53.3l4.6,2.6l-0.7,1.2l-4.6,-2.6z" />
+    <!-- 오른쪽 달력 줄 -->
+    <path
+        android:fillColor="#FF3B30"
+        android:pathData="M56,46h18v3h-18z" />
+    <path
+        android:fillColor="#7A2420"
+        android:pathData="M56,52h4v3h-4z M62,52h4v3h-4z M68,52h4v3h-4z M56,57h4v3h-4z M62,57h4v3h-4z M68,57h4v3h-4z" />
+</vector>

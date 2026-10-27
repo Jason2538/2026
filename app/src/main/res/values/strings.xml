@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Galaxy StandBy Pro</string>
+    <string name="standby_launcher_name">StandBy 시작</string>
+    <string name="dream_name">Galaxy StandBy Pro</string>
+    <string name="notification_listener_name">StandBy 음악 정보</string>
+    <string name="charging_channel_name">충전 감지</string>
+    <string name="charging_notification_title">StandBy 충전 감지 켜짐</string>
+    <string name="charging_notification_text">충전기를 연결하고 가로로 놓으면 StandBy를 표시합니다</string>
+</resources>
