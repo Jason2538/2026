@@ -200,10 +200,11 @@ private fun FullAnalogClock(s: AppSettings, dial: DialStyle, modifier: Modifier)
     BoxWithConstraints(modifier, contentAlignment = Alignment.Center) {
         val landscape = maxWidth > maxHeight
         val clockSize: Dp = min(maxHeight.value, maxWidth.value).dp * 0.94f
+        val gap: Dp = maxWidth * 0.05f
         if (landscape && s.showDate) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
                 AnalogClock(Modifier.size(clockSize).burnIn(31), dial, showSeconds = s.showSeconds)
-                Spacer(Modifier.width(maxWidth * 0.05f))
+                Spacer(Modifier.width(gap))
                 Column(Modifier.burnIn(32)) {
                     Text(weekdayText(t), color = if (colors.night) colors.primary else colors.widgetAccent, fontSize = 26.sp, fontWeight = FontWeight.SemiBold)
                     Text("${t.monthValue}월 ${t.dayOfMonth}일", color = colors.primary, fontSize = 40.sp, fontWeight = FontWeight.Bold, fontFamily = InterDisplay)

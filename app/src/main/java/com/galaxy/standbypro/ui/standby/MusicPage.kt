@@ -163,15 +163,17 @@ fun MusicPage(
             MusicInfo(np, s, hideDetails, showInfo, accent, actions, m)
         }
 
+        val sidePad: Dp = maxWidth * 0.04f
+        val gap: Dp = maxWidth * 0.05f
         if (landscape) {
             Row(
-                Modifier.fillMaxSize().padding(horizontal = maxWidth * 0.04f),
+                Modifier.fillMaxSize().padding(horizontal = sidePad),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = if (focus || !showCover) Arrangement.Center else Arrangement.Start,
             ) {
                 cover()
                 if (!focus) {
-                    if (showCover) Spacer(Modifier.width(maxWidth * 0.05f))
+                    if (showCover) Spacer(Modifier.width(gap))
                     info(Modifier.weight(1f))
                 }
             }
